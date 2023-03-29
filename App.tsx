@@ -27,7 +27,7 @@ function DetailsScreen({navigation}) {
 function NewScreen({navigation}) {
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>New Screen</Text>
+      <Text>New Screen to check</Text>
       <Button title="Go Home" onPress={() => navigation.goBack()} />
     </View>
   );
