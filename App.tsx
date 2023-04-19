@@ -3,6 +3,7 @@ import {useEffect, useState} from 'react';
 import axios from 'axios';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+
 import {
   FlatList,
   StyleSheet,
@@ -14,81 +15,47 @@ import {
   ToastAndroid,
 } from 'react-native';
 
-import MoviesList from './Components/MovieList';
+// import MoviesList from './Components/MovieList';
+
+import LogIn from './Components/LogIn';
+import SignUp from './Components/SignUp';
+import Welcome from './Components/Welcome';
 
 export default (App: any) => {
-  const [listdata, setdata] = useState([]);
-  const Stack = createNativeStackNavigator();
-
-  useEffect(() => {
-    apiCall();
-  }, []);
-
-  const apiCall = async () => {
-    let config = {
-      method: 'get',
-      maxBodyLength: Infinity,
-      url: 'https://dummyapi.online/api/movies',
-    };
-
-    axios
-      .request(config)
-      .then(response => {
-        console.log('details', JSON.stringify(response.data));
-        setdata(response?.data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
-  // const showToastWithGravity = () => {
-  //   ToastAndroid.showWithGravity(
-  //     'Added to cart',
-  //     ToastAndroid.SHORT,
-  //     ToastAndroid.TOP,
-  //   );
-  // };
-
-  const HomeScreen = ({navigation}: {navigation: any}) => {
+  const Home = ({navigation}: {navigation: any}) => {
     return (
       <View style={styles.container}>
-        <View style={{flex: 1}}>
-          <FlatList
-            data={listdata}
-            numColumns={1}
-            renderItem={item => {
-              return <MoviesList item={item} />;
-            }}
-            // keyExtractor={(item, index) => {
-            //   return item?.id;
-            // }}
-          />
+        <View style={styles.homeContainer}>
+          <Text style={{fontSize: 40}}>Lets start</Text>
+          <Text style={{fontSize: 40}}> Coding </Text>
         </View>
 
-        <View style={{height: 50}}>
+        <View style={styles.Btn}>
           <Button
-            title="Go to Timings "
-            onPress={() => navigation.navigate('Timings')}
+            title="Login"
+            color="#90ee90"
+            onPress={() => navigation.navigate('LogIn')}
+          />
+        </View>
+        <View style={styles.Btn}>
+          <Button
+            color="#ffa07a"
+            title="SignUp"
+            onPress={() => navigation.navigate('SignUp')}
           />
         </View>
       </View>
     );
   };
-
-  const TimingsScreen = ({navigation}: {navigation: any}) => {
-    return (
-      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-        <Text> Go to Home Screen </Text>
-        <Button title="Go back " onPress={() => navigation.goBack()} />
-      </View>
-    );
-  };
+  const Stack = createNativeStackNavigator();
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Timings" component={TimingsScreen} />
+      <Stack.Navigator screenOptions={{headerShown: false}}>
+        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="LogIn" component={LogIn} />
+        <Stack.Screen name="SignUp" component={SignUp} />
+        <Stack.Screen name="Welcome" component={Welcome} />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -101,5 +68,17 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
     // alignContent: 'center',
     borderColor: 'blue',
+    backgroundColor: '#f0f8ff',
+  },
+  homeContainer: {marginHorizontal: 20, marginVertical: 40},
+
+  Btn: {
+    flex: 0.08,
+
+    // marginTop: 10,
+    // marginBottom: 0.2,
+    height: 5,
+    width: 200,
+    alignSelf: 'center',
   },
 });
